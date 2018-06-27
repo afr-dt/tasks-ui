@@ -9,10 +9,9 @@ import {
   NavLink
 } from 'reactstrap';
 
-export default class Navigation extends React.Component {
+class Navigation extends React.Component {
   constructor(props) {
     super(props);
-
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false
@@ -44,3 +43,5 @@ export default class Navigation extends React.Component {
     );
   }
 }
+
+export default Navigation;

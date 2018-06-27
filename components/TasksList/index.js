@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { graphql } from 'react-apollo';
 import { gql } from 'apollo-boost';
+import EditTask from '../EditTask';
 import Edit from 'react-icons/lib/fa/pencil';
 import Show from 'react-icons/lib/fa/eye';
 import Delete from 'react-icons/lib/md/delete-forever';
@@ -15,7 +16,9 @@ import {
   Col,
   CardSubtitle,
   Container,
-  ButtonGroup
+  ButtonGroup,
+  CardFooter,
+  CardHeader
 } from 'reactstrap';
 import ListLoader from '../loader/ListLoader';
 
@@ -38,7 +41,7 @@ const TaskQuery = gql`
   }
 `;
 
-class Tasks extends Component {
+class Tasks extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -46,19 +49,37 @@ class Tasks extends Component {
   render() {
     const { data } = this.props;
     const { loading, tasks, error } = data;
-    // console.log('T A S K S...', tasks);
+    console.log('T A S K S...', tasks);
 
     let options = {
       month: 'short',
       day: 'numeric'
     };
 
-    const DateTimeFormat = daytime => {
+    const DateTimeFormatCreated = daytime => {
       return (
+        'Creado el ' +
         daytime.toLocaleDateString('es-MX', options) +
-        ' a las ' +
+        ' ' +
         daytime.toLocaleTimeString()
       );
+    };
+
+    const InProgressOrFinished = in_progress => {
+      if (in_progress === true) {
+        in_progress = (
+          <Button color="info" size="sm">
+            En curso
+          </Button>
+        );
+      } else {
+        in_progress = (
+          <Button color="danger" size="sm">
+            Finalizada
+          </Button>
+        );
+      }
+      return in_progress;
     };
 
     if (loading) {
@@ -89,27 +110,35 @@ class Tasks extends Component {
           <br />
           <Row>
             {tasks.edges.map(task => (
-              <Col key={task.node.id} sm="3">
+              <Col key={task.node.id} sm="3" className="text-center">
                 <Card body>
+                  <CardHeader>
+                    <CardTitle>{task.node.title}</CardTitle>
+                  </CardHeader>
                   <CardBody>
-                    <CardSubtitle>{task.node.title}</CardSubtitle>
-                    {/* <CardSubtitle>{task.node.timer}</CardSubtitle> */}
-                    {/* <CardText>{task.node.description}</CardText> */}
+                    <CardText>{task.node.description}</CardText>
+                    <CardText>Tiempo restante {task.node.timer}</CardText>
+                    <CardText>
+                      <Button color="success" size="sm">
+                        <Edit />
+                      </Button>
+                      <Button color="" size="sm">
+                        <Show />
+                      </Button>
+                      <Button color="danger" size="sm">
+                        <Delete />
+                      </Button>
+                    </CardText>
+                  </CardBody>
+                  <CardFooter>
+                    {InProgressOrFinished(task.node.status)}
                     <CardText>
                       <small className="text-muted">
-                        {DateTimeFormat(new Date(task.node.created))}
+                        {DateTimeFormatCreated(new Date(task.node.created))}
                       </small>
                     </CardText>
-                    <Button color="success" size="sm">
-                      <Edit />
-                    </Button>
-                    <Button color="" size="sm">
-                      <Show />
-                    </Button>
-                    <Button color="danger" size="sm">
-                      <Delete />
-                    </Button>
-                  </CardBody>
+                    {/* <EditTask/> */}
+                  </CardFooter>
                 </Card>
                 <br />
               </Col>

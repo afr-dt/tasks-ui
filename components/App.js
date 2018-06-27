@@ -15,6 +15,6 @@ export default ({ children }) => (
       />
     </Head>
 
-    <div>{children}</div>
+    {children}
   </main>
 );
