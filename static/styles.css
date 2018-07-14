@@ -3,10 +3,10 @@ body {
     padding: 0%;
     font-size: 16px;
     font-family: 'DejaVu Sans Mono', 'Noto Sans', Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif;
-    background-color: #a5a3a3c9 !important;
-    background-image: url("background.jpg");
+    background-color: #282A35 !important;
+    /* background-image: url("background.jpg");
     background-size: cover !important;
-    background-repeat: no-repeat !important;
+    background-repeat: no-repeat !important; */
 }
 
 a {

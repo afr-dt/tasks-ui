@@ -102,7 +102,11 @@ class Task extends React.Component {
 
     return (
       <Col key={item.node.id} sm="3" className="text-center">
-        <Card>
+        <Card
+          body
+          inverse
+          style={{ backgroundColor: '#202028', borderColor: '#60D5FF' }}
+        >
           <small> {item.node.task_id} </small>
           <CardHeader>
             <CardTitle>{item.node.title}</CardTitle>
